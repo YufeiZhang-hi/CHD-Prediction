@@ -1,0 +1,397 @@
+{
+  "components": {
+    "comp-perform-initial-data-prep": {
+      "executorLabel": "exec-perform-initial-data-prep",
+      "inputDefinitions": {
+        "parameters": {
+          "input_dataset_path": {
+            "parameterType": "STRING"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-perform-prediction": {
+      "executorLabel": "exec-perform-prediction",
+      "inputDefinitions": {
+        "artifacts": {
+          "dataset_for_predict": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        },
+        "parameters": {
+          "model_path": {
+            "parameterType": "STRING"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "predictions_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-test-engineering": {
+      "executorLabel": "exec-test-engineering",
+      "inputDefinitions": {
+        "artifacts": {
+          "test_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        },
+        "parameters": {
+          "cluster_path": {
+            "parameterType": "STRING"
+          },
+          "drop_originals": {
+            "defaultValue": true,
+            "isOptional": true,
+            "parameterType": "BOOLEAN"
+          },
+          "scaler_path": {
+            "parameterType": "STRING"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "updated_test_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-test-imputation": {
+      "executorLabel": "exec-test-imputation",
+      "inputDefinitions": {
+        "artifacts": {
+          "test_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        },
+        "parameters": {
+          "a1c_mean_dia": {
+            "parameterType": "NUMBER_DOUBLE"
+          },
+          "a1c_mean_nondia": {
+            "parameterType": "NUMBER_DOUBLE"
+          },
+          "mean_saved": {
+            "parameterType": "STRUCT"
+          },
+          "mode_cigs": {
+            "parameterType": "NUMBER_DOUBLE"
+          },
+          "mode_saved": {
+            "parameterType": "STRUCT"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "imputed_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    }
+  },
+  "deploymentSpec": {
+    "executors": {
+      "exec-perform-initial-data-prep": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "perform_initial_data_prep"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'fsspec' 'gcsfs' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef perform_initial_data_prep(input_dataset_path: str,\n                              output_dataset_path: OutputPath('Dataset')):\n    import pandas as pd\n    import numpy as np\n\n    df=pd.read_csv(input_dataset_path)\n\n    #feature selection\n    df = df.drop('glucose', axis=1)\n\n    #log transform\n    df['log_bmi'] = np.log(df['BMI']+1)\n    df['log_tot_chol'] = np.log(df['totChol']+1)\n    df['log_sysbp'] = np.log(df['sysBP']+1)\n    df['log_a1c'] = np.log(df['a1c']+1)\n    df=df.drop('BMI',axis=1)\n    df=df.drop('totChol',axis=1)\n    df=df.drop('sysBP',axis=1)\n    df=df.drop('a1c',axis=1)\n\n    df.to_csv(output_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-perform-prediction": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "perform_prediction"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn' 'joblib' 'fsspec' 'gcsfs' 'xgboost' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef perform_prediction(dataset_for_predict:InputPath('Dataset'),\n                       model_path:str,\n                       predictions_path:OutputPath('Dataset')\n                      ):\n    import pandas as pd\n    import joblib\n    from sklearn.ensemble import VotingClassifier\n    import gcsfs\n\n    fs=gcsfs.GCSFileSystem()\n\n    # Load the test dataset\n    pred_df = pd.read_csv(dataset_for_predict)\n    pred_df_x=pred_df.drop('patientID',axis=1)\n\n\n    # Load the ensemble model\n    with fs.open(model_path,'rb') as f:\n        trainde_model=joblib.load(f)\n\n    # Make predictions\n    y_pred = trainde_model.predict(pred_df_x)\n    pred_df['pred_TenYearCHD']=y_pred\n    pred_df=pred_df[['patientID','pred_TenYearCHD']]\n\n    pred_df.to_csv(predictions_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-test-engineering": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "test_engineering"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn' 'joblib' 'fsspec' 'gcsfs' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef test_engineering(test_dataset_path: InputPath('Dataset'),\n                     updated_test_path: OutputPath('Dataset'),\n                     scaler_path: str,\n                     cluster_path: str,\n                     drop_originals: bool = True):\n\n    import pandas as pd\n    import joblib\n    from sklearn.preprocessing import StandardScaler\n    from sklearn.cluster import KMeans\n    import gcsfs\n\n    # Load test dataset\n    df_test = pd.read_csv(test_dataset_path)\n\n    fs=gcsfs.GCSFileSystem()\n\n    # Load scaler and k-means models\n    with fs.open(scaler_path,'rb') as f:\n        scaler = joblib.load(f)\n    with fs.open(cluster_path,'rb') as f:\n        kmeans = joblib.load(f)    \n\n    # Apply scaling\n    features_to_scale = ['age', 'education', 'income']\n    data_scaled = scaler.transform(df_test[features_to_scale])\n\n    # Apply clustering\n    clusters = kmeans.predict(data_scaled)\n    df_test['Demographic Cluster'] = clusters\n\n    # Optionally drop original features\n    if drop_originals:\n        df_test.drop(features_to_scale, axis=1, inplace=True)\n\n    # Save the updated dataframe\n    df_test.to_csv(updated_test_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-test-imputation": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "test_imputation"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef test_imputation(test_dataset_path: InputPath('Dataset'),\n                    imputed_dataset_path: OutputPath('Dataset'),\n                    mean_saved: dict,\n                    mode_saved: dict,\n                    mode_cigs: float,\n                    a1c_mean_dia: float,\n                    a1c_mean_nondia: float):\n    import pandas as pd\n\n    # Load test dataset\n    df = pd.read_csv(test_dataset_path)\n\n    # Apply mean and mode imputations\n    for col, value in mean_saved.items():\n        df[col].fillna(value, inplace=True)\n    for col, value in mode_saved.items():\n        df[col].fillna(value, inplace=True)\n    df.loc[(df['cigsPerDay'].isnull()) & (df['currentSmoker'] == 0), 'cigsPerDay'] = 0\n    df.loc[(df['cigsPerDay'].isnull()) & (df['currentSmoker'] == 1), 'cigsPerDay'] = mode_cigs\n\n    # Apply A1C imputation\n    df.loc[(df['log_a1c'].isnull()) & (df['diabetes'] == 1), 'log_a1c'] = a1c_mean_dia\n    df.loc[(df['log_a1c'].isnull()) & (df['diabetes'] == 0), 'log_a1c'] = a1c_mean_nondia\n\n    # Save the imputed dataframe\n    df.to_csv(imputed_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      }
+    }
+  },
+  "pipelineInfo": {
+    "name": "final-inference-pipeline"
+  },
+  "root": {
+    "dag": {
+      "tasks": {
+        "perform-initial-data-prep": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-perform-initial-data-prep"
+          },
+          "inputs": {
+            "parameters": {
+              "input_dataset_path": {
+                "componentInputParameter": "dataset_for_prediction"
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "perform-initial-data-prep"
+          }
+        },
+        "perform-prediction": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-perform-prediction"
+          },
+          "dependentTasks": [
+            "test-engineering"
+          ],
+          "inputs": {
+            "artifacts": {
+              "dataset_for_predict": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "updated_test_path",
+                  "producerTask": "test-engineering"
+                }
+              }
+            },
+            "parameters": {
+              "model_path": {
+                "componentInputParameter": "model_path"
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "perform-prediction"
+          }
+        },
+        "test-engineering": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-test-engineering"
+          },
+          "dependentTasks": [
+            "test-imputation"
+          ],
+          "inputs": {
+            "artifacts": {
+              "test_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "imputed_dataset_path",
+                  "producerTask": "test-imputation"
+                }
+              }
+            },
+            "parameters": {
+              "cluster_path": {
+                "componentInputParameter": "cluster_path"
+              },
+              "scaler_path": {
+                "componentInputParameter": "scaler_path"
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "test-engineering"
+          }
+        },
+        "test-imputation": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-test-imputation"
+          },
+          "dependentTasks": [
+            "perform-initial-data-prep"
+          ],
+          "inputs": {
+            "artifacts": {
+              "test_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_dataset_path",
+                  "producerTask": "perform-initial-data-prep"
+                }
+              }
+            },
+            "parameters": {
+              "a1c_mean_dia": {
+                "componentInputParameter": "a1c_mean_dia"
+              },
+              "a1c_mean_nondia": {
+                "componentInputParameter": "a1c_mean_nondia"
+              },
+              "mean_saved": {
+                "componentInputParameter": "mean_saved"
+              },
+              "mode_cigs": {
+                "componentInputParameter": "mode_cigs"
+              },
+              "mode_saved": {
+                "componentInputParameter": "mode_saved"
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "test-imputation"
+          }
+        }
+      }
+    },
+    "inputDefinitions": {
+      "parameters": {
+        "a1c_mean_dia": {
+          "defaultValue": 2.1493724929514166,
+          "isOptional": true,
+          "parameterType": "NUMBER_DOUBLE"
+        },
+        "a1c_mean_nondia": {
+          "defaultValue": 1.6347599082650512,
+          "isOptional": true,
+          "parameterType": "NUMBER_DOUBLE"
+        },
+        "cluster_path": {
+          "defaultValue": "gs://ise543-module8-hw-yufei/49985438948/final-project-pipeline-20240503233914/scale-and-cluster-train-data_-2121341041062707200/kmeans_path",
+          "isOptional": true,
+          "parameterType": "STRING"
+        },
+        "dataset_for_prediction": {
+          "parameterType": "STRING"
+        },
+        "mean_saved": {
+          "defaultValue": {
+            "heartRate": 75.75385119632907,
+            "log_bmi": 3.2765795514207583,
+            "log_tot_chol": 5.45446608070892
+          },
+          "isOptional": true,
+          "parameterType": "STRUCT"
+        },
+        "mode_cigs": {
+          "defaultValue": 20.0,
+          "isOptional": true,
+          "parameterType": "NUMBER_DOUBLE"
+        },
+        "mode_saved": {
+          "defaultValue": {
+            "BPMeds": 0.0,
+            "education": 1.0
+          },
+          "isOptional": true,
+          "parameterType": "STRUCT"
+        },
+        "model_path": {
+          "defaultValue": "gs://ise543-module8-hw-yufei/49985438948/final-project-pipeline-20240503234919/train-voting-ensemble_5219526351551201280/output_ensemble_model",
+          "isOptional": true,
+          "parameterType": "STRING"
+        },
+        "scaler_path": {
+          "defaultValue": "gs://ise543-module8-hw-yufei/49985438948/final-project-pipeline-20240503233914/scale-and-cluster-train-data_-2121341041062707200/scaler_path",
+          "isOptional": true,
+          "parameterType": "STRING"
+        }
+      }
+    }
+  },
+  "schemaVersion": "2.1.0",
+  "sdkVersion": "kfp-2.7.0"
+}

@@ -1,0 +1,1282 @@
+{
+  "components": {
+    "comp-apply-scaling-clustering-test-data": {
+      "executorLabel": "exec-apply-scaling-clustering-test-data",
+      "inputDefinitions": {
+        "artifacts": {
+          "kmeans_path": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "scaler_path": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "test_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        },
+        "parameters": {
+          "drop_originals": {
+            "defaultValue": true,
+            "isOptional": true,
+            "parameterType": "BOOLEAN"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "updated_test_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-apply-smote": {
+      "executorLabel": "exec-apply-smote",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        },
+        "parameters": {
+          "target_column": {
+            "parameterType": "STRING"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "balanced_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-calculate-log": {
+      "executorLabel": "exec-calculate-log",
+      "inputDefinitions": {
+        "artifacts": {
+          "input_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-evaluate-model": {
+      "executorLabel": "exec-evaluate-model",
+      "inputDefinitions": {
+        "artifacts": {
+          "model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "test_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "metrics_output": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-feature-select": {
+      "executorLabel": "exec-feature-select",
+      "inputDefinitions": {
+        "parameters": {
+          "input_dataset_path": {
+            "parameterType": "STRING"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-scale-and-cluster-train-data": {
+      "executorLabel": "exec-scale-and-cluster-train-data",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        },
+        "parameters": {
+          "drop_originals": {
+            "defaultValue": true,
+            "isOptional": true,
+            "parameterType": "BOOLEAN"
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "kmeans_path": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "scaler_path": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "updated_training_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-split-dataset": {
+      "executorLabel": "exec-split-dataset",
+      "inputDefinitions": {
+        "artifacts": {
+          "input_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "validation_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-test-imputation": {
+      "executorLabel": "exec-test-imputation",
+      "inputDefinitions": {
+        "artifacts": {
+          "mean_a1c_dia": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mean_a1c_nondia": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mean_saved": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mode_cigs": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mode_saved": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "test_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "imputed_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-decision-tree": {
+      "executorLabel": "exec-train-decision-tree",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-imputation": {
+      "executorLabel": "exec-train-imputation",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "imputed_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mean_a1c_dia": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mean_a1c_nondia": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mean_saved": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mode_cigs": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "mode_saved": {
+            "artifactType": {
+              "schemaTitle": "system.Artifact",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-logistic-regression": {
+      "executorLabel": "exec-train-logistic-regression",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-random-forest": {
+      "executorLabel": "exec-train-random-forest",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-svc": {
+      "executorLabel": "exec-train-svc",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-voting-ensemble": {
+      "executorLabel": "exec-train-voting-ensemble",
+      "inputDefinitions": {
+        "artifacts": {
+          "logistic_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "random_forest_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "svc_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "tree_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "xgboost_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_ensemble_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-train-xgboost": {
+      "executorLabel": "exec-train-xgboost",
+      "inputDefinitions": {
+        "artifacts": {
+          "training_dataset_path": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "output_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    }
+  },
+  "deploymentSpec": {
+    "executors": {
+      "exec-apply-scaling-clustering-test-data": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "apply_scaling_clustering_test_data"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef apply_scaling_clustering_test_data(test_dataset_path: InputPath('Dataset'),\n                                       updated_test_path: OutputPath('Dataset'),\n                                       scaler_path: InputPath('Model'),\n                                       kmeans_path: InputPath('Model'),\n                                       drop_originals: bool = True):\n    import pandas as pd\n    import joblib\n    from sklearn.preprocessing import StandardScaler\n    from sklearn.cluster import KMeans\n\n    # Load test dataset\n    df_test = pd.read_csv(test_dataset_path)\n\n    # Load scaler and k-means models\n    scaler = joblib.load(scaler_path)\n    kmeans = joblib.load(kmeans_path)\n\n    # Apply scaling\n    features_to_scale = ['age', 'education', 'income']\n    data_scaled = scaler.transform(df_test[features_to_scale])\n\n    # Apply clustering\n    clusters = kmeans.predict(data_scaled)\n    df_test['Demographic Cluster'] = clusters\n\n    # Optionally drop original features\n    if drop_originals:\n        df_test.drop(features_to_scale, axis=1, inplace=True)\n\n    # Save the updated dataframe\n    df_test.to_csv(updated_test_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-apply-smote": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "apply_smote"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn' 'imbalanced-learn==0.11.0' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef apply_smote(training_dataset_path: InputPath('Dataset'),\n                balanced_dataset_path: OutputPath('Dataset'),\n                target_column: str):\n\n    import pandas as pd\n    import numpy as np\n    from imblearn.over_sampling import SMOTE\n\n    # Load the preprocessed training dataset\n    df = pd.read_csv(training_dataset_path)\n\n    # Separating the features and the target\n    X = df.drop(target_column, axis=1)\n    y = df[target_column]\n\n    # Initialize SMOTE and resample the data\n    smote = SMOTE(random_state=42)\n    X_res, y_res = smote.fit_resample(X, y)\n\n    # Combine resampled features and target into a single DataFrame\n    df_resampled = pd.DataFrame(X_res, columns=X.columns)\n    df_resampled[target_column] = y_res\n\n    # Save the balanced dataset\n    df_resampled.to_csv(balanced_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-calculate-log": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "calculate_log"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'numpy' 'pandas' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef calculate_log(input_dataset_path: InputPath('Dataset'), \n                  output_dataset_path: OutputPath('Dataset')):\n\n    import numpy as np\n    import pandas as pd\n\n    df = pd.read_csv(input_dataset_path)\n\n    df['log_bmi'] = np.log(df['BMI']+1)\n    df['log_tot_chol'] = np.log(df['totChol']+1)\n    df['log_sysbp'] = np.log(df['sysBP']+1)\n    df['log_a1c'] = np.log(df['a1c']+1)\n    df=df.drop('BMI',axis=1)\n    df=df.drop('totChol',axis=1)\n    df=df.drop('sysBP',axis=1)\n    df=df.drop('a1c',axis=1)\n\n    df.to_csv(output_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-evaluate-model": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "evaluate_model"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' 'joblib' 'xgboost' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef evaluate_model(test_dataset_path: Input[Dataset],\n                            model: Input[Model],\n                            metrics_output: Output[Metrics]):\n    import pandas as pd\n    from sklearn.metrics import accuracy_score, f1_score, precision_recall_curve, auc\n    import joblib\n    import sklearn\n    import xgboost\n\n    # Load the test dataset\n    test_df = pd.read_csv(test_dataset_path.path)\n    X_test = test_df.drop(columns=['TenYearCHD'])\n    y_test = test_df['TenYearCHD']\n\n    # Load the ensemble model\n    model = joblib.load(model.path)\n\n\n    # Make predictions\n    y_pred = model.predict(X_test)\n    y_prob = model.predict_proba(X_test)[:, 1]\n\n    # Calculate metrics\n    accuracy = accuracy_score(y_test, y_pred)\n    f1 = f1_score(y_test, y_pred, average='weighted')\n\n    # Calculate Precision-Recall curve and AUC\n    precision, recall, _ = precision_recall_curve(y_test, y_prob)\n    auc_precision_recall = auc(recall, precision)\n\n    # Log the metrics\n    metrics_output.log_metric(\"accuracy\", accuracy)\n    metrics_output.log_metric(\"f1_score\", f1)\n    metrics_output.log_metric(\"auc_precision_recall\", auc_precision_recall)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-feature-select": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "feature_select"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'fsspec' 'gcsfs' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef feature_select(input_dataset_path: str, output_dataset_path: OutputPath('Dataset')):\n    import pandas as pd\n\n    df = pd.read_csv(input_dataset_path)\n    df = df.drop('glucose', axis=1)\n    df = df.drop('patientID', axis=1)\n    df.to_csv(output_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-scale-and-cluster-train-data": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "scale_and_cluster_train_data"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef scale_and_cluster_train_data(training_dataset_path: InputPath('Dataset'),\n                                 updated_training_path: OutputPath('Dataset'),\n                                 scaler_path: OutputPath('Model'),\n                                 kmeans_path: OutputPath('Model'),\n                                 drop_originals: bool = True):\n    import pandas as pd\n    from sklearn.preprocessing import StandardScaler\n    from sklearn.cluster import KMeans\n    import joblib\n\n    # Load training dataset\n    df_train = pd.read_csv(training_dataset_path)\n\n    # Scaling features\n    features_to_scale = ['age', 'education', 'income']\n    scaler = StandardScaler()\n    data_scaled = scaler.fit_transform(df_train[features_to_scale])\n    joblib.dump(scaler, scaler_path)\n\n    # Clustering\n    kmeans = KMeans(n_clusters=5, random_state=42)\n    clusters = kmeans.fit_predict(data_scaled)\n    joblib.dump(kmeans, kmeans_path)\n\n    # Add cluster assignments to the dataframe\n    df_train['Demographic Cluster'] = clusters\n\n    # Optionally drop original features\n    if drop_originals:\n        df_train.drop(features_to_scale, axis=1, inplace=True)\n\n    # Save the updated dataframe\n    df_train.to_csv(updated_training_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-split-dataset": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "split_dataset"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef split_dataset(input_dataset_path: InputPath('Dataset'),\n                  training_dataset_path: OutputPath('Dataset'),\n                  validation_dataset_path: OutputPath('Dataset')):\n\n    import pandas as pd\n    from sklearn.model_selection import train_test_split\n\n    data = pd.read_csv(input_dataset_path)\n\n    train_df, val_df = train_test_split(data, test_size=0.20, random_state=42)\n    train_df.to_csv(training_dataset_path, index=False)\n    val_df.to_csv(validation_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-test-imputation": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "test_imputation"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef test_imputation(test_dataset_path: InputPath('Dataset'),\n                       imputed_dataset_path: OutputPath('Dataset'),\n                       mean_saved: Input[Artifact],\n                       mode_saved: Input[Artifact],\n                       mode_cigs: Input[Artifact],\n                       mean_a1c_dia: Input[Artifact],\n                       mean_a1c_nondia: Input[Artifact]):\n    import pandas as pd\n\n    # Load test dataset\n    df = pd.read_csv(test_dataset_path)\n\n    # Apply mean and mode imputations\n    for col, value in mean_saved.metadata['value'].items():\n        df[col].fillna(value, inplace=True)\n    for col, value in mode_saved.metadata['value'].items():\n        df[col].fillna(value, inplace=True)\n    df.loc[(df['cigsPerDay'].isnull()) & (df['currentSmoker'] == 0), 'cigsPerDay'] = 0\n    df.loc[(df['cigsPerDay'].isnull()) & (df['currentSmoker'] == 1), 'cigsPerDay'] = mode_cigs.metadata['value']\n\n    # Apply A1C imputation\n    df.loc[(df['log_a1c'].isnull()) & (df['diabetes'] == 1), 'log_a1c'] = mean_a1c_dia.metadata['value']\n    df.loc[(df['log_a1c'].isnull()) & (df['diabetes'] == 0), 'log_a1c'] = mean_a1c_nondia.metadata['value']\n\n    # Save the imputed dataframe\n    df.to_csv(imputed_dataset_path, index=False)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-decision-tree": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_decision_tree"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_decision_tree(training_dataset_path: Input[Dataset],\n                        output_model: Output[Model]):\n    import pandas as pd\n    from sklearn.tree import DecisionTreeClassifier\n    import joblib\n\n    # Load the training data\n    train_df = pd.read_csv(training_dataset_path.path)\n    X_train = train_df.drop(columns=['TenYearCHD'])\n    y_train = train_df['TenYearCHD']\n\n    # Train the model\n    model = DecisionTreeClassifier(random_state=42)\n    model.fit(X_train, y_train)\n\n    # Save the model\n    joblib.dump(model, output_model.path)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-imputation": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_imputation"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn' 'scipy' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_imputation(training_dataset_path: InputPath('Dataset'),\n                        imputed_dataset_path: OutputPath('Dataset'),\n                        mean_saved: Output[Artifact],\n                        mode_saved: Output[Artifact],\n                        mode_cigs: Output[Artifact],\n                        mean_a1c_dia: Output[Artifact],\n                        mean_a1c_nondia: Output[Artifact]\n                       ):\n    import pandas as pd\n    from scipy.stats import mode\n\n    # Load dataset\n    df = pd.read_csv(training_dataset_path)\n\n    # Continuous variables mean imputation\n    mean_values = {}\n    for col in ['log_tot_chol', 'log_bmi', 'heartRate']:\n        mean_values[col] = df[col].mean()\n        df[col].fillna(mean_values[col], inplace=True)\n\n    # Discrete variables mode imputation\n    mode_values = {}\n    for col in ['BPMeds', 'education']:\n        mode_values[col] = df[col].mode()[0]\n        df[col].fillna(mode_values[col], inplace=True)\n\n    # Cigarettes per day imputation\n    mode_cig_per = df.loc[df['currentSmoker'] == 1, 'cigsPerDay'].mode()[0]\n    df.loc[(df['cigsPerDay'].isnull()) & (df['currentSmoker'] == 0), 'cigsPerDay'] = 0\n    df.loc[(df['cigsPerDay'].isnull()) & (df['currentSmoker'] == 1), 'cigsPerDay'] = mode_cig_per\n\n    # A1C mean imputation by diabetes status\n    mean_a1c_diabetic = df[df['diabetes'] == 1]['log_a1c'].mean()\n    mean_a1c_nondiabetic = df[df['diabetes'] == 0]['log_a1c'].mean()\n    df.loc[(df['log_a1c'].isnull()) & (df['diabetes'] == 1), 'log_a1c'] = mean_a1c_diabetic\n    df.loc[(df['log_a1c'].isnull()) & (df['diabetes'] == 0), 'log_a1c'] = mean_a1c_nondiabetic\n\n    # Save imputed dataset and metadata\n    df.to_csv(imputed_dataset_path, index=False)\n    mean_saved.metadata['value'] = mean_values\n    mode_saved.metadata['value'] = mode_values\n    mode_cigs.metadata['value'] = mode_cig_per\n    mean_a1c_dia.metadata['value'] = mean_a1c_diabetic\n    mean_a1c_nondia.metadata['value'] = mean_a1c_nondiabetic\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-logistic-regression": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_logistic_regression"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_logistic_regression(training_dataset_path: Input[Dataset],\n                              output_model: Output[Model]):\n    import pandas as pd\n    from sklearn.linear_model import LogisticRegression\n    import joblib\n\n    # Load the training data\n    train_df = pd.read_csv(training_dataset_path.path)\n\n    X_train = train_df.drop(columns=['TenYearCHD'])\n    y_train = train_df['TenYearCHD']\n\n    model = LogisticRegression(max_iter=1000)\n    model.fit(X_train, y_train)\n\n    # Save the model to the designated output path\n    joblib.dump(model, output_model.path)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-random-forest": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_random_forest"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_random_forest(training_dataset_path: Input[Dataset],\n                        output_model: Output[Model]):\n    import pandas as pd\n    from sklearn.ensemble import RandomForestClassifier\n    import joblib\n\n    # Load the training data\n    train_df = pd.read_csv(training_dataset_path.path)\n    X_train = train_df.drop(columns=['TenYearCHD'])\n    y_train = train_df['TenYearCHD']\n\n    # Train the model\n    model = RandomForestClassifier(n_estimators=100, random_state=42)\n    model.fit(X_train, y_train)\n\n    # Save the model\n    joblib.dump(model, output_model.path)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-svc": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_svc"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_svc(training_dataset_path: Input[Dataset],\n              output_model: Output[Model]):\n    import pandas as pd\n    from sklearn.svm import SVC\n    import joblib\n\n    # Load the training data\n    train_df = pd.read_csv(training_dataset_path.path)\n    X_train = train_df.drop(columns=['TenYearCHD'])\n    y_train = train_df['TenYearCHD']\n\n    # Train the model\n    model = SVC(probability=True, random_state=42)\n    model.fit(X_train, y_train)\n\n    # Save the model\n    joblib.dump(model, output_model.path)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-voting-ensemble": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_voting_ensemble"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'scikit-learn' 'joblib' 'xgboost' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_voting_ensemble(training_dataset_path: Input[Dataset],\n                          logistic_model: Input[Model],\n                          svc_model: Input[Model],\n                          tree_model: Input[Model],\n                          xgboost_model: Input[Model],\n                          random_forest_model: Input[Model],\n                          output_ensemble_model: Output[Model]):\n    import pandas as pd\n    from sklearn.ensemble import VotingClassifier\n    import joblib\n\n    # Load the training data\n    train_df = pd.read_csv(training_dataset_path.path)\n    X_train = train_df.drop(columns=['TenYearCHD'])\n    y_train = train_df['TenYearCHD']\n\n    # Load individual models\n    logistic = joblib.load(logistic_model.path)\n    svc = joblib.load(svc_model.path)\n    tree = joblib.load(tree_model.path)\n    xgboost = joblib.load(xgboost_model.path)\n    random_forest = joblib.load(random_forest_model.path)\n\n    # Create a voting ensemble\n    ensemble = VotingClassifier(estimators=[\n        ('logistic', logistic),\n        ('svc', svc),\n        ('tree', tree),\n        ('xgboost', xgboost),\n        ('random_forest', random_forest)\n    ], voting='soft')\n\n    # Train the ensemble\n    ensemble.fit(X_train, y_train)\n\n    # Save the ensemble model\n    joblib.dump(ensemble, output_ensemble_model.path)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      },
+      "exec-train-xgboost": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "train_xgboost"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'xgboost' 'scikit-learn' 'joblib' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef train_xgboost(training_dataset_path: Input[Dataset],\n                  output_model: Output[Model]):\n    import pandas as pd\n    import xgboost as xgb\n    import joblib\n    import sklearn\n\n    # Load the training data\n    train_df = pd.read_csv(training_dataset_path.path)\n    X_train = train_df.drop(columns=['TenYearCHD'])\n    y_train = train_df['TenYearCHD']\n\n    # Define and train the model\n    model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)\n    model.fit(X_train, y_train)\n\n    # Save the model\n    joblib.dump(model, output_model.path)\n\n"
+          ],
+          "image": "python:3.7"
+        }
+      }
+    }
+  },
+  "pipelineInfo": {
+    "name": "final-project-pipeline"
+  },
+  "root": {
+    "dag": {
+      "outputs": {
+        "artifacts": {
+          "evaluate-model-metrics_output": {
+            "artifactSelectors": [
+              {
+                "outputArtifactKey": "metrics_output",
+                "producerSubtask": "evaluate-model"
+              }
+            ]
+          }
+        }
+      },
+      "tasks": {
+        "apply-scaling-clustering-test-data": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-apply-scaling-clustering-test-data"
+          },
+          "dependentTasks": [
+            "scale-and-cluster-train-data",
+            "test-imputation"
+          ],
+          "inputs": {
+            "artifacts": {
+              "kmeans_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "kmeans_path",
+                  "producerTask": "scale-and-cluster-train-data"
+                }
+              },
+              "scaler_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "scaler_path",
+                  "producerTask": "scale-and-cluster-train-data"
+                }
+              },
+              "test_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "imputed_dataset_path",
+                  "producerTask": "test-imputation"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "apply-scaling-clustering-test-data"
+          }
+        },
+        "apply-smote": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-apply-smote"
+          },
+          "dependentTasks": [
+            "scale-and-cluster-train-data"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "updated_training_path",
+                  "producerTask": "scale-and-cluster-train-data"
+                }
+              }
+            },
+            "parameters": {
+              "target_column": {
+                "runtimeValue": {
+                  "constant": "TenYearCHD"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "apply-smote"
+          }
+        },
+        "calculate-log": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-calculate-log"
+          },
+          "dependentTasks": [
+            "feature-select"
+          ],
+          "inputs": {
+            "artifacts": {
+              "input_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_dataset_path",
+                  "producerTask": "feature-select"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "calculate-log"
+          }
+        },
+        "evaluate-model": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-evaluate-model"
+          },
+          "dependentTasks": [
+            "apply-scaling-clustering-test-data",
+            "train-voting-ensemble"
+          ],
+          "inputs": {
+            "artifacts": {
+              "model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_ensemble_model",
+                  "producerTask": "train-voting-ensemble"
+                }
+              },
+              "test_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "updated_test_path",
+                  "producerTask": "apply-scaling-clustering-test-data"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "evaluate-model"
+          }
+        },
+        "feature-select": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-feature-select"
+          },
+          "inputs": {
+            "parameters": {
+              "input_dataset_path": {
+                "componentInputParameter": "input_dataset_path"
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "feature-select"
+          }
+        },
+        "scale-and-cluster-train-data": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-scale-and-cluster-train-data"
+          },
+          "dependentTasks": [
+            "train-imputation"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "imputed_dataset_path",
+                  "producerTask": "train-imputation"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "scale-and-cluster-train-data"
+          }
+        },
+        "split-dataset": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-split-dataset"
+          },
+          "dependentTasks": [
+            "calculate-log"
+          ],
+          "inputs": {
+            "artifacts": {
+              "input_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_dataset_path",
+                  "producerTask": "calculate-log"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "split-dataset"
+          }
+        },
+        "test-imputation": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-test-imputation"
+          },
+          "dependentTasks": [
+            "split-dataset",
+            "train-imputation"
+          ],
+          "inputs": {
+            "artifacts": {
+              "mean_a1c_dia": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "mean_a1c_dia",
+                  "producerTask": "train-imputation"
+                }
+              },
+              "mean_a1c_nondia": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "mean_a1c_nondia",
+                  "producerTask": "train-imputation"
+                }
+              },
+              "mean_saved": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "mean_saved",
+                  "producerTask": "train-imputation"
+                }
+              },
+              "mode_cigs": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "mode_cigs",
+                  "producerTask": "train-imputation"
+                }
+              },
+              "mode_saved": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "mode_saved",
+                  "producerTask": "train-imputation"
+                }
+              },
+              "test_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "validation_dataset_path",
+                  "producerTask": "split-dataset"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "test-imputation"
+          }
+        },
+        "train-decision-tree": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-decision-tree"
+          },
+          "dependentTasks": [
+            "apply-smote"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "balanced_dataset_path",
+                  "producerTask": "apply-smote"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-decision-tree"
+          }
+        },
+        "train-imputation": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-imputation"
+          },
+          "dependentTasks": [
+            "split-dataset"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "training_dataset_path",
+                  "producerTask": "split-dataset"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-imputation"
+          }
+        },
+        "train-logistic-regression": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-logistic-regression"
+          },
+          "dependentTasks": [
+            "apply-smote"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "balanced_dataset_path",
+                  "producerTask": "apply-smote"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-logistic-regression"
+          }
+        },
+        "train-random-forest": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-random-forest"
+          },
+          "dependentTasks": [
+            "apply-smote"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "balanced_dataset_path",
+                  "producerTask": "apply-smote"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-random-forest"
+          }
+        },
+        "train-svc": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-svc"
+          },
+          "dependentTasks": [
+            "apply-smote"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "balanced_dataset_path",
+                  "producerTask": "apply-smote"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-svc"
+          }
+        },
+        "train-voting-ensemble": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-voting-ensemble"
+          },
+          "dependentTasks": [
+            "apply-smote",
+            "train-decision-tree",
+            "train-logistic-regression",
+            "train-random-forest",
+            "train-svc",
+            "train-xgboost"
+          ],
+          "inputs": {
+            "artifacts": {
+              "logistic_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_model",
+                  "producerTask": "train-logistic-regression"
+                }
+              },
+              "random_forest_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_model",
+                  "producerTask": "train-random-forest"
+                }
+              },
+              "svc_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_model",
+                  "producerTask": "train-svc"
+                }
+              },
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "balanced_dataset_path",
+                  "producerTask": "apply-smote"
+                }
+              },
+              "tree_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_model",
+                  "producerTask": "train-decision-tree"
+                }
+              },
+              "xgboost_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "output_model",
+                  "producerTask": "train-xgboost"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-voting-ensemble"
+          }
+        },
+        "train-xgboost": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-train-xgboost"
+          },
+          "dependentTasks": [
+            "apply-smote"
+          ],
+          "inputs": {
+            "artifacts": {
+              "training_dataset_path": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "balanced_dataset_path",
+                  "producerTask": "apply-smote"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "train-xgboost"
+          }
+        }
+      }
+    },
+    "inputDefinitions": {
+      "parameters": {
+        "input_dataset_path": {
+          "parameterType": "STRING"
+        }
+      }
+    },
+    "outputDefinitions": {
+      "artifacts": {
+        "evaluate-model-metrics_output": {
+          "artifactType": {
+            "schemaTitle": "system.Metrics",
+            "schemaVersion": "0.0.1"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "2.1.0",
+  "sdkVersion": "kfp-2.7.0"
+}
